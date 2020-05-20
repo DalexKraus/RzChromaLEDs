@@ -17,6 +17,7 @@ CREATEKEYBOARDEFFECT    createKeyboardEffect    = NULL;
 CREATEMOUSEEFFECT       createMouseEffect       = NULL;
 SETEFFECT               setEffect               = NULL;
 DELETEEFFECT            deleteEffect            = NULL;
+QUERYDEVICE             queryDevice             = NULL;
 
 void CChromaSDK::setKeyboardColor(COLORREF color)
 {
@@ -78,9 +79,10 @@ bool CChromaSDK::initialize()
                 createMouseEffect       = (CREATEMOUSEEFFECT)       GetProcAddress(module, "CreateMouseEffect");
                 setEffect               = (SETEFFECT)               GetProcAddress(module, "SetEffect");
                 deleteEffect            = (DELETEEFFECT)            GetProcAddress(module, "DeleteEffect");
+                queryDevice             = (QUERYDEVICE)             GetProcAddress(module, "QueryDevice");
 
                 //Return the state of the function loading procedure
-                success = createEffect && createKeyboardEffect && createMouseEffect && setEffect && deleteEffect;
+                success = createEffect && createKeyboardEffect && createMouseEffect && setEffect && deleteEffect && queryDevice;
                 if (success) Sleep(INIT_TIMEOUT);
             }
             else dbgErr("Unable to initialize ChromaSDK.");
@@ -112,4 +114,18 @@ bool CChromaSDK::unitialize()
         }
     }
     return success;
+}
+
+bool CChromaSDK::isDeviceConnected(RZDEVICEID deviceId)
+{
+    bool deviceConnected = false;
+    if (queryDevice != NULL)
+    {
+        ChromaSDK::DEVICE_INFO_TYPE deviceInfo = {};
+        RZRESULT queryResult = queryDevice(deviceId, deviceInfo);
+        deviceConnected = deviceInfo.Connected;
+    }
+    else dbgErr("Undefined reference to procedure 'queryDevice'!");
+
+    return deviceConnected;
 }

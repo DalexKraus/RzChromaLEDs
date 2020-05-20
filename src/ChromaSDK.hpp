@@ -23,13 +23,14 @@ typedef RZRESULT (*CREATEMOUSEEFFECT)
 
 typedef RZRESULT (*SETEFFECT)       (RZEFFECTID EffectId);
 typedef RZRESULT (*DELETEEFFECT)    (RZEFFECTID EffectId);
+typedef RZRESULT (*QUERYDEVICE)     (RZDEVICEID DeviceId, ChromaSDK::DEVICE_INFO_TYPE &DeviceInfo);
 
 class CChromaSDK
 {
 public:
     bool initialize();
     bool unitialize();
-    bool isDeviceConnected();
+    bool isDeviceConnected(RZDEVICEID deviceId);
     void setKeyboardColor(COLORREF color);
     void setMouseColor(COLORREF color);
 private:
