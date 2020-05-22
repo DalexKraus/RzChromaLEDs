@@ -7,6 +7,10 @@
 #include "RzChromaSDKTypes.h"
 #include "RzErrors.h"
 
+#ifndef CHROMA_API
+#define CHROMA_API __declspec(dllexport)
+#endif
+
 // Generic
 typedef RZRESULT (*INIT)(void);
 typedef RZRESULT (*UNINIT)(void);
@@ -25,16 +29,13 @@ typedef RZRESULT (*SETEFFECT)       (RZEFFECTID EffectId);
 typedef RZRESULT (*DELETEEFFECT)    (RZEFFECTID EffectId);
 typedef RZRESULT (*QUERYDEVICE)     (RZDEVICEID DeviceId, ChromaSDK::DEVICE_INFO_TYPE &DeviceInfo);
 
-class CChromaSDK
+extern "C"
 {
-public:
-    bool initialize();
-    bool unitialize();
-    bool isDeviceConnected(RZDEVICEID deviceId);
-    void setKeyboardColor(COLORREF color);
-    void setMouseColor(COLORREF color);
-private:
-    HMODULE m_ChromaSDKModule;
-};
+    CHROMA_API bool initialize();
+    CHROMA_API bool unitialize();
+    CHROMA_API bool isDeviceConnected(RZDEVICEID deviceId);
+    CHROMA_API void setKeyboardColor(COLORREF color);
+    CHROMA_API void setMouseColor(COLORREF color);
+}
 
 #endif

@@ -11,6 +11,5 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${RZAPP_BIN_DIR})
 file(GLOB_RECURSE CXX_SOURCES RELATIVE  ${CMAKE_SOURCE_DIR} "src/*.cpp")
 file(GLOB_RECURSE C_SOURCES RELATIVE    ${CMAKE_SOURCE_DIR} "src/*.c")
 include_directories("include/")
-include_directories("src/")
 
-add_executable(rzledapp ${CXX_SOURCES}  ${C_SOURCES})
+add_library(rzledapp SHARED ${CXX_SOURCES}  ${C_SOURCES})

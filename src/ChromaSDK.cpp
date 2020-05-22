@@ -19,7 +19,9 @@ SETEFFECT               setEffect               = NULL;
 DELETEEFFECT            deleteEffect            = NULL;
 QUERYDEVICE             queryDevice             = NULL;
 
-void CChromaSDK::setKeyboardColor(COLORREF color)
+HMODULE m_ChromaSDKModule;
+
+CHROMA_API void setKeyboardColor(COLORREF color)
 {
     using namespace ChromaSDK::Keyboard;
     CUSTOM_KEY_EFFECT_TYPE effect = {};
@@ -31,7 +33,7 @@ void CChromaSDK::setKeyboardColor(COLORREF color)
     createKeyboardEffect(CHROMA_CUSTOM_KEY, &effect, NULL);
 }
 
-void CChromaSDK::setMouseColor(COLORREF color)
+CHROMA_API void setMouseColor(COLORREF color)
 {
     using namespace ChromaSDK::Mouse;
     CUSTOM_EFFECT_TYPE effect = {};
@@ -42,7 +44,7 @@ void CChromaSDK::setMouseColor(COLORREF color)
     createMouseEffect(CHROMA_CUSTOM, &effect, NULL);
 }
 
-bool CChromaSDK::initialize()
+CHROMA_API bool initialize()
 {
     dbgInfo("Initializing ChomaSDK ...");
     bool success = false;
@@ -92,7 +94,7 @@ bool CChromaSDK::initialize()
     return success;
 }
 
-bool CChromaSDK::unitialize()
+CHROMA_API bool unitialize()
 {
     dbgInfo("UnInitializing ChromaSDK ...");
     bool success = false;
@@ -116,7 +118,7 @@ bool CChromaSDK::unitialize()
     return success;
 }
 
-bool CChromaSDK::isDeviceConnected(RZDEVICEID deviceId)
+CHROMA_API bool isDeviceConnected(RZDEVICEID deviceId)
 {
     bool deviceConnected = false;
     if (queryDevice != NULL)
